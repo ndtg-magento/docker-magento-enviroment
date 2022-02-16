@@ -24,7 +24,7 @@ RUN apk add --no-cache vim freetype \
     freetype-dev \
     libjpeg-turbo-dev \
     busybox-suid ssmtp \
-    dcron libcap zip unzip
+    dcron libcap zip unzip gettext
 
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS
 
@@ -57,11 +57,13 @@ RUN apk del .phpize-deps \
     && rm -rf /var/cache/apk/*
 
 COPY ./docker/php/php.ini "${PHP_INI_DIR}/php.ini"
-COPY ./docker/php/ssmtp.conf /etc/ssmtp/ssmtp.conf
+COPY docker/php/ssmtp.conf.template /etc/ssmtp/ssmtp.conf.template
 
 COPY ./docker/thread.sh /usr/local/bin/thread
 COPY ./docker/aliases.sh /etc/profile.d/aliases.sh
+
 COPY ./docker/docker-php-entrypoint /usr/local/bin/docker-php-entrypoint
+COPY ./docker/docker-ssmtp-entrypoint /usr/local/bin/docker-ssmtp-entrypoint
 COPY ./docker/docker-magento-entrypoint /usr/local/bin/docker-magento-entrypoint
 
 RUN addgroup magento && \
