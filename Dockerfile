@@ -63,7 +63,6 @@ COPY ./docker/thread.sh /usr/local/bin/thread
 COPY ./docker/aliases.sh /etc/profile.d/aliases.sh
 
 COPY ./docker/docker-php-entrypoint /usr/local/bin/docker-php-entrypoint
-COPY ./docker/docker-ssmtp-entrypoint /usr/local/bin/docker-ssmtp-entrypoint
 COPY ./docker/docker-magento-entrypoint /usr/local/bin/docker-magento-entrypoint
 
 RUN addgroup magento && \
