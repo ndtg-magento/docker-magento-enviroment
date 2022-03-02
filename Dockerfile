@@ -10,8 +10,11 @@ ENV ZIP_ROOT=/usr/share/nginx
 
 # Install package
 RUN apk add --no-cache vim freetype \
-    libpng \
+    icu \
     zlib \
+    libcap \
+    libpng \
+    libzip \
     libwebp \
     libjpeg \
     libjpeg \
@@ -19,7 +22,7 @@ RUN apk add --no-cache vim freetype \
     libjpeg-turbo \
     imagemagick \
     busybox-suid ssmtp \
-    dcron libcap zip unzip gettext
+    dcron zip unzip gettext
 
 RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
     icu-dev \
