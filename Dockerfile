@@ -17,16 +17,18 @@ RUN apk add --no-cache vim freetype \
     libjpeg \
     libxslt \
     libjpeg-turbo \
-    icu-dev \
-    libzip-dev \
-    libpng-dev \
-    libxslt-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
+    imagemagick \
     busybox-suid ssmtp \
     dcron libcap zip unzip gettext
 
-RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+    icu-dev \
+    libzip-dev \
+    libxslt-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    imagemagick-dev \
+    libtool
 
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
     && docker-php-ext-configure intl
@@ -45,15 +47,10 @@ RUN docker-php-ext-install \
     sockets
 
 # Install Redis Cache
-RUN pecl install redis
-RUN docker-php-ext-enable redis
+RUN pecl install redis imagick
+RUN docker-php-ext-enable redis imagick
 
 RUN apk del .phpize-deps \
-    && apk del --no-cache \
-       libpng-dev \
-       libxslt-dev \
-       freetype-dev \
-       libjpeg-turbo-dev \
     && rm -rf /var/cache/apk/*
 
 COPY ./docker/php/php.ini "${PHP_INI_DIR}/php.ini"
